@@ -23,7 +23,7 @@ String leerTexto(Map<String, dynamic> json, String campo) {
 String? leerTextoOpcional(Map<String, dynamic> json, String campo) {
   final valor = json[campo];
 
-  if (valor == null) return null; 
+  if (valor == null) return null;
 
   if (valor is String) return valor;
 
@@ -48,7 +48,7 @@ DateTime leerFecha(Map<String, dynamic> json, String campo) {
     throw CampoInvalido(campo, 'debe ser una fecha ISO 8601 en texto', valor);
   }
 
-  final fecha = DateTime.tryParse(valor); 
+  final fecha = DateTime.tryParse(valor);
 
   if (fecha == null) {
     throw CampoInvalido(campo, 'no es una fecha ISO 8601', valor);
@@ -79,7 +79,7 @@ List<String> leerTextos(Map<String, dynamic> json, String campo) {
   final valor = json[campo];
 
   if (valor == null) {
-    return const <String>[]; 
+    return const <String>[];
   }
 
   if (valor is! List) {

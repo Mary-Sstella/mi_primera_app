@@ -1,7 +1,5 @@
 import 'package:mi_primera_app/core/json.dart';
 
-
-
 class Ubicacion {
   const Ubicacion({
     required this.latitud,
