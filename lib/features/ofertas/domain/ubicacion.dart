@@ -1,10 +1,6 @@
 import 'package:mi_primera_app/core/json.dart';
 
-/// Representa la ubicación de una oferta.
-///
-/// Es un objeto de valor: dos ubicaciones con la misma
-/// latitud, longitud y barrio se consideran iguales.
-// la misma ubicación, así que no lleva `id` y se compara por contenido.
+
 
 class Ubicacion {
   const Ubicacion({

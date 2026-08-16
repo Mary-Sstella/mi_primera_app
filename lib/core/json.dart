@@ -10,7 +10,6 @@ class CampoInvalido implements Exception {
   String toString() => 'CampoInvalido: \'$campo\' $motivo (llegó: $valor)';
 }
 
-/// Lee un texto obligatorio.
 String leerTexto(Map<String, dynamic> json, String campo) {
   final valor = json[campo];
 
@@ -21,23 +20,18 @@ String leerTexto(Map<String, dynamic> json, String campo) {
   throw CampoInvalido(campo, 'debe ser un texto no vacío', valor);
 }
 
-/// Lee un texto que puede faltar.
 String? leerTextoOpcional(Map<String, dynamic> json, String campo) {
   final valor = json[campo];
 
-  if (valor == null) return null; // ausente y null: lo mismo
+  if (valor == null) return null; 
 
   if (valor is String) return valor;
 
   throw CampoInvalido(campo, 'debe ser un texto o venir ausente', valor);
 }
 
-/// Lee un número decimal.
 double leerDecimal(Map<String, dynamic> json, String campo) {
   final valor = json[campo];
-
-  // En JSON, 10 y 10.0 son el mismo número. En Dart, int y double NO lo son:
-  // `valor as double` revienta con 10. Por eso se pasa por num.
 
   if (valor is num) {
     return valor.toDouble();
@@ -54,16 +48,15 @@ DateTime leerFecha(Map<String, dynamic> json, String campo) {
     throw CampoInvalido(campo, 'debe ser una fecha ISO 8601 en texto', valor);
   }
 
-  final fecha = DateTime.tryParse(valor); // tryParse, no parse:
+  final fecha = DateTime.tryParse(valor); 
 
   if (fecha == null) {
     throw CampoInvalido(campo, 'no es una fecha ISO 8601', valor);
   }
 
-  return fecha.toUtc(); // el dominio vive en UTC
+  return fecha.toUtc();
 }
 
-/// Lee un objeto/mapa JSON.
 Map<String, dynamic> leerMapa(Map<String, dynamic> json, String campo) {
   final valor = json[campo];
 
@@ -82,12 +75,11 @@ int leerEntero(Map<String, dynamic> json, String campo) {
   throw CampoInvalido(campo, 'debe ser un número entero', valor);
 }
 
-/// Lee una lista de textos.
 List<String> leerTextos(Map<String, dynamic> json, String campo) {
   final valor = json[campo];
 
   if (valor == null) {
-    return const <String>[]; // ausente = lista vacía
+    return const <String>[]; 
   }
 
   if (valor is! List) {

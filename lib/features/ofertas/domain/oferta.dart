@@ -21,8 +21,6 @@ abstract class Oferta with _$Oferta {
     @Default(<String>[]) List<String> fotos,
   }) = _Oferta;
 
-  // Constructor privado necesario para poder agregar
-  // nuestras propias reglas de negocio.
   const Oferta._();
 
   // JSON escrito a mano para conservar nuestros CampoInvalido.
@@ -39,7 +37,6 @@ abstract class Oferta with _$Oferta {
     fotos: leerTextos(json, 'fotos'),
   );
 
-  // JSON escrito a mano.
   Map<String, dynamic> toJson() => {
     'id': id,
     'titulo': titulo,
@@ -53,12 +50,8 @@ abstract class Oferta with _$Oferta {
     'fotos': fotos,
   };
 
-  // Regla de negocio 1:
-  // determina si la oferta tiene descuento.
   bool get tieneDescuento => precioOferta < precioOriginal;
 
-  // Regla de negocio 2:
-  // determina si una oferta disponible ya pasó su fecha límite.
   bool estaVencida(DateTime ahora) {
     if (estado is Disponible) {
       final disponible = estado as Disponible;
