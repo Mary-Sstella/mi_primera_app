@@ -1,4 +1,4 @@
-# Mi Primera App
+# Mi Primera app
 
 Aplicación móvil desarrollada en Flutter para gestionar ofertas de productos,
 permitiendo representar información de ofertas, ubicaciones y estados.
