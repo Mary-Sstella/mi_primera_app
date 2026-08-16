@@ -1,22 +1,40 @@
-# mi_primera_app
+# Mi Primera App
 
-A new Flutter project.
+Aplicación móvil desarrollada en Flutter para gestionar ofertas de productos,
+permitiendo representar información de ofertas, ubicaciones y estados.
 
-## Getting Started
+## El dominio
 
-This project is a starting point for a Flutter application.
+- `Oferta` — entidad principal. Su identidad está determinada por `id`.
+- `Ubicacion` — objeto de valor que representa la ubicación de una oferta.
+- `EstadoOferta` — representa los diferentes estados de una oferta.
+- `OfertasRepository` — interfaz que define las operaciones que necesita la aplicación.
+- `OfertasLocales` — implementación que obtiene las ofertas desde el archivo JSON local.
 
-A few resources to get you started if this is your first Flutter project:
+## Datos
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+Las ofertas se cargan inicialmente desde:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+`assets/data/ofertas.json`
 
+La lectura se realiza mediante `OfertasLocales`, detrás de la interfaz
+`OfertasRepository`. Esto permite cambiar posteriormente la fuente de datos
+por Firestore sin modificar el resto de la aplicación.
 
-## Flutter doctor screenshot
+## Freezed
 
-![Flutter doctor](flutter_doctor.png)
+Se uso `freezed` para generar automáticamente código repetitivo
+como `copyWith`, `==`, `hashCode` y `toString`, reduciendo código escrito
+manualmente y evitando errores en estas operaciones.
+
+Las reglas de negocio y la validación personalizada del JSON se mantienen
+en el código escrito manualmente.
+
+## Cómo ejecutar el proyecto
+
+```bash
+flutter pub get
+dart run build_runner build --delete-conflicting-outputs
+flutter analyze
+flutter test
+flutter run

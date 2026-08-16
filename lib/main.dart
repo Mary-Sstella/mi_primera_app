@@ -1,78 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:mi_primera_app/features/ofertas/data/ofertas_locales.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MiPrimeraApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MiPrimeraApp extends StatelessWidget {
+  const MiPrimeraApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Contador App',
-      theme: ThemeData(
-  
-        colorScheme: .fromSeed(
-          seedColor: const Color.fromARGB(255, 119, 175, 197),
-        ),
-      ),
-      home: const MyHomePage(title: 'Contador de clicks'),
+      debugShowCheckedModeBanner: false,
+      title: 'Ofertas',
+      home: const OfertasPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class OfertasPage extends StatefulWidget {
+  const OfertasPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<OfertasPage> createState() => _OfertasPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  @override
-  void initState() {
-    super.initState(); 
-    _counter = 50;
-  }
-
-  void _incrementCounter() {
-    setState(() {
-     
-      _counter++;
-    });
-  }
+class _OfertasPageState extends State<OfertasPage> {
+  final OfertasLocales repositorio =
+      OfertasLocales(); //repositorio local de ofertas
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
-      appBar: AppBar(
-   
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        
-        title: Text('contador de clicks'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [
-            const Text('Has pulsado el boton esta cantidad de veces:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      appBar: AppBar(title: const Text('Ofertas disponibles')),
+      body: FutureBuilder(
+        future: repositorio.obtenerTodas(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('No se pudo leer:\n${snapshot.error}'));
+          }
+
+          final ofertas = snapshot.data ?? [];
+
+          return ListView.builder(
+            itemCount: ofertas.length,
+            itemBuilder: (context, index) {
+              final oferta = ofertas[index];
+
+              return ListTile(
+                title: Text(oferta.titulo),
+                subtitle: Text('${oferta.negocio} · \$${oferta.precioOferta}'),
+                trailing: Text(oferta.estado.runtimeType.toString()),
+              );
+            },
+          );
+        },
       ),
     );
   }
